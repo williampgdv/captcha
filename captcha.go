@@ -181,7 +181,7 @@ func (c *Captcha) drawString(img *Image, str string) {
 
 	// 文字之间的距离
 	// 左右各留文字的1/4大小为内部边距
-	padding := fsize / 4
+	padding := fsize / 6
 	gap := (c.size.X - padding*2) / (len(str))
 
 	// 逐个绘制文字到图片上
@@ -198,17 +198,18 @@ func (c *Captcha) drawString(img *Image, str string) {
 		str.DrawString(font, c.frontColors[colorindex], string(char), float64(fsize))
 
 		// 转换角度后的文字图形
-		rs := str.Rotate(float64(r.Intn(40) - 20))
+		// rs := str.Rotate(float64(r.Intn(40) - 20))
+		rs := str.Rotate(0)
 		// 计算文字位置
 		s := rs.Bounds().Size()
 		left := i*gap + padding
 		top := (c.size.Y - s.Y) / 2
 		// 绘制到图片上
-		draw.Draw(tmp, image.Rect(left, top, left+s.X, top+s.Y), rs, image.ZP, draw.Over)
+		draw.Draw(tmp, image.Rect(left, top, left+s.X, top+s.Y), rs, image.ZP, draw.Src)
 	}
 	if c.size.Y >= 48 {
 		// 高度大于48添加波纹 小于48波纹影响用户识别
-		tmp.distortTo(float64(fsize)/10, 200.0)
+		// tmp.distortTo(float64(fsize)/10, 200.0)
 	}
 
 	draw.Draw(img, tmp.Bounds(), tmp, image.ZP, draw.Over)
