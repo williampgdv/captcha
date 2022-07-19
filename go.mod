@@ -1,4 +1,4 @@
-module github.com/afocus/captcha
+module github.com/williampgdv/captcha
 
 go 1.13
 
